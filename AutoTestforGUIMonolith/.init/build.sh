@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -euo pipefail
+WORKSPACE="/home/kavia/workspace/code-generation/auto-test-for-gui-2635-2646/AutoTestforGUIMonolith"
+cd "$WORKSPACE"
+# No heavy build required for validation; ensure venv exists and install minimal packages if missing
+if [ ! -d "$WORKSPACE/.venv" ]; then
+  python3 -m venv "$WORKSPACE/.venv"
+fi
+# Activate and install minimal packages idempotently
+. "$WORKSPACE/.venv/bin/activate"
+pip install --upgrade pip >/dev/null 2>&1 || true
+pip install --upgrade robotframework robotframework-seleniumlibrary pytest >/dev/null 2>&1 || true
+if [ "${DESKTOP_AUTOMATION:-0}" = "1" ]; then
+  pip install --upgrade pyautogui >/dev/null 2>&1 || true
+fi
+# Dump requirements for reproducibility
+pip freeze > "$WORKSPACE/requirements.txt" || true
+deactivate || true
