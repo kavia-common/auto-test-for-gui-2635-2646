@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -euo pipefail
+WORKSPACE="/home/kavia/workspace/code-generation/auto-test-for-gui-2635-2646/AutoTestforGUIMonolith"
+exec "$WORKSPACE/.venv/bin/robot" "$@"
